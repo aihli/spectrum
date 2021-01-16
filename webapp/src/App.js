@@ -1,9 +1,10 @@
 import "./App.scss";
+import LoginFormComponent from "./components/LoginFormComponent";
 
 function App() {
   return (
     <>
-      <button className="button">Hello</button>
+      <LoginFormComponent />
     </>
   );
 }
