@@ -1,1 +1,1 @@
-console.log("from background")
+console.log("from foreground")
