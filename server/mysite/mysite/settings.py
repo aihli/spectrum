@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mysite',
     'cockroach_example',
-    'polls'
+    'polls',
+    'article'
 ]
 
 MIDDLEWARE = [
