@@ -1,11 +1,16 @@
 import "./App.scss";
-import LoginFormComponent from "./components/LoginFormComponent";
+import { Router } from "@reach/router";
+import LoginScreen from "./screens/LoginScreen";
+import SearchScreen from "./screens/SearchScreen";
+import ResultsScreen from "./screens/ResultsScreen";
 
 function App() {
   return (
-    <>
-      <LoginFormComponent />
-    </>
+    <Router className="main">
+      <LoginScreen path="/" />
+      <SearchScreen path="/search" />
+      <ResultsScreen path="/results" />
+    </Router>
   );
 }
 
