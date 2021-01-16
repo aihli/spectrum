@@ -25,7 +25,7 @@ SECRET_KEY = 'eb&%m(yc0(s7f8!++u5=sl+!0#7dz$mbyi&dq0b=q+e12n35ab'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0']
 
 
 # Application definition
@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'mysite',
+    'cockroach_example',
+    'polls'
 ]
 
 MIDDLEWARE = [
@@ -74,9 +77,17 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE' : 'django_cockroachdb',
+        'NAME' : 'clumsy-rat-221.defaultdb',
+        'USER' : 'bilal',
+        'PASSWORD': 'BrittanyLame123',
+        'HOST' : 'free-tier.gcp-us-central1.cockroachlabs.cloud',
+        'PORT' : 26257,
     }
 }
 
