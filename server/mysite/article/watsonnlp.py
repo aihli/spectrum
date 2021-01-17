@@ -30,18 +30,20 @@ from generator import GoogleSearch
 # ).get_result()
 
 # print(json.dumps(response, indent=2))
-
+extreme_left = ["palmerreport.com", "politifact.com"]
 left = ["jacobinmag.com", "jezebel.com"]
 center_left = ["cbsnews.com", "abcnews.go.com", "npr.org", "nbcnews.com", "nytimes.com", "stltoday.com", "theguardian.com", 
                 "washingtonpost.com", "cnn.com", "msnbc.com", "vox.com", "nbcnews.com", "huffpost.com", "scmp.com",
-                "forbes.com", "theskimm.com", "cbc.ca"]
+                "forbes.com", "theskimm.com", "cbc.ca", "dailyhive.com", "thestar.com", "theprovince.com", "bbc.com", "time.com", "Vox.com", "theguardian.com"]
 center = ["reuters.com", "apnews.com", "upi.com", "voanews.com", "tennessean.com", "syracuse.com", "economist.com",
         "reviewjournal.com", "forbes.com", "startribune.com"]
 center_right = ["thehill.com", "rasmussenreports.com", "wsj.com", "christianitytoday.com", "atlanticcouncil.org", 
         "atlanticcouncil.org", "chicagotribune.com", "edmontonsun.com", "financialpost.com", "fraserinstitute.org",
-        "freedomhouse.org", "nypost.com", "montrealgazette.com", "ottawacitizen.com", "ottawasun.com", "vancouversun.com"]
-right = ["nypost.com", "foxnews.com", "washingtontimes.com", "beinglibertarian.com"]
-all_url_sets = [left, center_left, center, center_right, right]
+        "freedomhouse.org", "nypost.com", "montrealgazette.com", "ottawacitizen.com", "ottawasun.com", "vancouversun.com", "nationalpost.com", "torontosun.com", 
+        "calgaryherald.com", "theglobeandmail.com"]
+right = ["nypost.com", "foxnews.com", "washingtontimes.com", "beinglibertarian.com", "calgarysun.com", "rebelnews.com", "telegraph.co.uk"]
+extreme_right = ["naturalnews.com", "infowars.com"]
+all_url_sets = [extreme_left, left, center_left, center, center_right, right, extreme_right]
 all_url_dict = {"left": left, "center_left": center_left, "center": center, "center_right": center_right, "right": right}
 
 class WatsonNLP():
@@ -140,7 +142,6 @@ class ArticleProcessor():
         if leaning == "center":
             r_list = center_right + right + center_left + left
         return random.shuffle(r_list)
-
 
     def getArticles(self, source):
         nlp.analyze_article(source)
