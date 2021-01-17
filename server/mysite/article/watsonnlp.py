@@ -5,7 +5,7 @@ from ibm_watson import NaturalLanguageUnderstandingV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_watson.natural_language_understanding_v1 import Features, CategoriesOptions, ConceptsOptions, EmotionOptions, EntitiesOptions, KeywordsOptions, SentimentOptions, FeaturesResultsMetadata
 
-from generator import GoogleSearch
+from .generator import GoogleSearch
 
 # authenticator = IAMAuthenticator('9Q8EOeltPlk4l2un8nGPEztLGTDHaCIv3O4Cu_LE-bYV')
 # natural_language_understanding = NaturalLanguageUnderstandingV1(
@@ -114,6 +114,7 @@ class WatsonNLP():
         ).get_result()
         print(time.time() - start)
         print(json.dumps(response, indent=2))
+        return response
 
 
 class ArticleProcessor():
@@ -157,13 +158,11 @@ class ArticleProcessor():
                 break
         print("#####################")       
         print(results)
+        sentiments = []
         for result in results:
-            self.nlp.compare_sentiment(result[1])
+            sentiments.append(self.nlp.compare_sentiment(result[1]))
+        return results, sentiments
 
 
-
-processor = ArticleProcessor()
-processor.getArticles('https://www.newsmax.com/michaeldorstewitz/vote-fraud-baseless-merit-scotus/2021/01/02/id/1003982/')
-
-
-
+# processor = ArticleProcessor()
+# processor.getArticles('https://www.newsmax.com/michaeldorstewitz/vote-fraud-baseless-merit-scotus/2021/01/02/id/1003982/')

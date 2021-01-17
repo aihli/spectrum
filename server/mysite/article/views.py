@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db import Error, OperationalError
 from django.db.transaction import atomic
 from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import get_object_or_404
 from psycopg2 import errorcodes
 from functools import wraps
 import json
@@ -121,13 +122,14 @@ class Article(View):
         return JsonResponse(responseJSON, safe=False)
 
 
-
+# /history
+# body username
+# history: [{article: url, rebuttels: urls}]
 @method_decorator(csrf_exempt, name='dispatch')
 class HistoryView(View):
-    def get(self, request, id=None, *args, **kwargs):
-        return JsonResponse(products, safe=False)
-
     @retry_on_exception
     @atomic
     def post(self, request, *args, **kwargs):
-        return HttpResponse(status=200)
+        username = request.POST["username"]
+        user = get_object_or_404(User, email=username)
+        history_records = History.objects.all().filter(user=user)
