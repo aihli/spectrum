@@ -25,7 +25,10 @@ SECRET_KEY = 'eb&%m(yc0(s7f8!++u5=sl+!0#7dz$mbyi&dq0b=q+e12n35ab'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0']
+CORS_ORIGIN_ALLOW_ALL=True
+
+ALLOWED_HOSTS = ['0.0.0.0',
+'3c67c9eee90a.ngrok.io']
 
 
 # Application definition
@@ -40,10 +43,13 @@ INSTALLED_APPS = [
     'mysite',
     'cockroach_example',
     'polls',
-    'article'
+    'article',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
