@@ -18,7 +18,7 @@ from django.urls import path, include
 from django.conf.urls import url
 
 from cockroach_example.views import CustomersView, OrdersView, PingView, ProductView
-from article.views import UserCreate, UserLogin
+from article.views import UserCreate, UserLogin, Article, HistoryView
 
 urlpatterns = [
     path('polls/', include('polls.urls')),
@@ -36,7 +36,8 @@ urlpatterns = [
 
     url('order/', OrdersView.as_view(), name='order'),
 
-
     url('createuser/', UserCreate.as_view(), name='createUser'),
     url('login/', UserLogin.as_view(), name='login'),
+    url('getRebuttalArticles/', Article.as_view(), name='article'),
+    url('history/', HistoryView.as_view(), name='history')
 ]

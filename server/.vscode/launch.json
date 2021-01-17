@@ -20,7 +20,7 @@
             "name": "Run Server",
             "type": "python",
             "request": "launch",
-            "program": "manage.py",
+            "program": "mysite/manage.py",
             "args": [
                 "runserver",
                 "--noreload",

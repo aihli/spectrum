@@ -1,11 +1,11 @@
 import React from "react";
 
-const CardComponent = ({ article, alignment }) => {
+const CardComponent = ({ article, title, alignment, sentiment }) => {
   return (
     <div className="card mt-6">
       <header className="card-header">
         <p className="card-header-title">
-          <a href={article}>Article</a>
+          <a href={article}>{title}</a>
         </p>
       </header>
       <div className="card-content">
@@ -21,6 +21,9 @@ const CardComponent = ({ article, alignment }) => {
         <span class={`icon mv-arrow-${alignment}`}>
           <i class="fas fa-arrow-up"></i>
         </span>
+        <div className="has-text-centered">
+          This article has a sentiment score of {sentiment}!
+        </div>
       </div>
     </div>
   );
