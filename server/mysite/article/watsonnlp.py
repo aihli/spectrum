@@ -29,7 +29,18 @@ from generator import GoogleSearch
 
 # print(json.dumps(response, indent=2))
 
-class WastonNLP():
+left = ["jacobinmag.com", "jezebel.com"]
+center_left = ["cbsnews.com", "abcnews.go.com", "npr.org", "nbcnews.com", "nytimes.com", "stltoday.com", "theguardian.com", 
+                "washingtonpost.com", "cnn.com", "msnbc.com", "vox.com", "nbcnews.com", "huffpost.com", "scmp.com",
+                "forbes.com", "theskimm.com", "cbc.ca"]
+center = ["reuters.com", "apnews.com", "upi.com", "voanews.com", "tennessean.com", "syracuse.com", "economist.com",
+        "reviewjournal.com", "forbes.com", "startribune.com"]
+center_right = ["thehill.com", "rasmussenreports.com", "wsj.com", "christianitytoday.com", "atlanticcouncil.org", 
+        "atlanticcouncil.org", "chicagotribune.com", "edmontonsun.com", "financialpost.com", "fraserinstitute.org",
+        "freedomhouse.org", "nypost.com", "montrealgazette.com", "ottawacitizen.com", "ottawasun.com", "vancouversun.com"]
+right = ["nypost.com", "foxnews.com", "washingtontimes.com", "beinglibertarian.com"]
+
+class WatsonNLP():
     authenticator = IAMAuthenticator('9Q8EOeltPlk4l2un8nGPEztLGTDHaCIv3O4Cu_LE-bYV')
     natural_language_understanding = NaturalLanguageUnderstandingV1(
         version='2020-08-01',
@@ -69,8 +80,24 @@ class WastonNLP():
             except KeyError:
                 pass
         self.source_keywords = filtered_keywords
+
+    def extract_keywords(self, keywords=None):
+        if keywords is None:
+            keywords = self.source_keywords
+        r_array = []
+        for keyword in keywords:
+            r_array.append(keyword["text"])
+        return r_array
+
+    def reduce_keywords(self, count=1):
+        for i in range(count):
+            if len(self.source_keywords) <= 1:
+                return False
+            else:
+                self.source_keywords.pop()
+        return True
     
-    def comp_sentiment(self, newArticle):
+    def compare_sentiment(self, newArticle):
         keywords = self.extract_keywords()
         features = Features(
             sentiment=SentimentOptions(targets=keywords),
@@ -85,27 +112,43 @@ class WastonNLP():
         print(json.dumps(response, indent=2))
 
 
-    def extract_keywords(self, keywords=None):
-        if keywords is None:
-            keywords = self.source_keywords
-        r_array = []
-        for keyword in keywords:
-            r_array.append(keyword["text"])
-        return r_array
+class ArticleProcessor():
+    nlp = WatsonNLP()
+    g = GoogleSearch()
+    google_results = []
 
-    def reduce_keywords(self, count):
-        for i in range(count):
-            if len(self.source_keywords) <= 1:
-                return False
-            else:
-                self.source_keywords.pop()
-        return True
+    def leaning(self, source):
+        domain = g.get_source_domain(source)
+        for url_set in [left, center_left, center, center_right, right]:
+            
+
+    def getArticles(self, source):
+        nlp.analyze_article(source)
+        going = True
+        while going:
+            query = g.build_request()
 
 
-nlp = WastonNLP()
+
+nlp = WatsonNLP()
 nlp.analyze_article('https://www.cbc.ca/news/politics/trudeau-flight-ban-possible-1.5874905')
 
 g = GoogleSearch()
-q = g.build_request(keywords=nlp.extract_keywords(), sites=['reuters.com', 'forbes.com'])
-g.search(query=q, count=3)
+going = True
+results = []
+while going:
+    q = g.build_request(keywords=nlp.extract_keywords(), sites=['reuters.com', 'forbes.com'])
+    results = g.search(query=q, count=3)
+    if len(results) == 0:
+        going = nlp.reduce_keywords()
+    else:
+        break
+print("#####################")       
+print(results)
+
+for result in results:
+    link = result[1]
+    print("#####################")  
+    print(link)
+    nlp.compare_sentiment(link)
 print("blah")

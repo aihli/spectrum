@@ -23,9 +23,16 @@ class GoogleSearch:
         )
         results = request.execute()
         print(results)
-        for item in results['items']:
-            print(item['title'])
-            print(item['link'])
+        articles_array = []
+        try:
+            for item in results['items']:
+                print(item['title'])
+                print(item['link'])
+                articles_array.append([item['title'], item['link']])
+        except:
+            print("Search returned no articles")
+            pass
+        return articles_array
     
     def build_request(self, keywords, sites):
         keyword_arg = " OR ".join(map(lambda kw: "allintext:" + kw, keywords))
