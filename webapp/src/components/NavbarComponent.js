@@ -5,7 +5,9 @@ const NavbarComponent = () => {
   return (
     <nav className="navbar is-primary" role="navigation">
       <div className="navbar-brand">
-        <Link className="navbar-item" to="/search"></Link>
+        <Link className="navbar-item" to="/search">
+          s
+        </Link>
       </div>
       <div className="navbar-end">
         <div className="navbar-item has-dropdown is-hoverable">
