@@ -18,10 +18,9 @@ const ResultsScreen = ({ location }) => {
             article={
               "https://www.cbc.ca/news/politics/american-capitol-hill-violence-wherry-1.5873775"
             }
-          >
-            Hello it's me
-          </CardComponent>
-          <CardComponent />
+            alignment={5}
+          />
+          <CardComponent alignment={0} />
         </div>
       </div>
     </>
