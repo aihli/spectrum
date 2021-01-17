@@ -1,24 +1,35 @@
 
 document.addEventListener("DOMContentLoaded", function () {
     app.init();
-    updateHeaderScoreDiv(10,10,10);
+    updateHeaderScoreDiv(10, 10, 10);
 });
 
-document.addEventListener("pageshow", function() {
+document.addEventListener("pageshow", function () {
     app.init();
 })
 
 var app = {
+    loadedRebutticles: [],
+
     init: function () {
-        console.log("I'm logged in:" + signedIn);
-        renderSignIn();
+        //load data from background
+        chrome.runtime.sendMessage({ fn: "getRebutticles" }, function (response) {
+            this.loadedRebutticles = response;
+             
+            //continue rest of rendering
+            renderSignIn();
 
-        let scrollView = document.getElementsByClassName("scroll")[0];
+            let scrollView = document.getElementsByClassName("scroll")[0];
 
-        for (i in rebutticles) {
-            data = rebutticles[i];
-            scrollView.appendChild(createCard(data.bias, data.opinion, data.indep, data.url, i, data.title));
-        }
+            for (i in loadedRebutticles) {
+                data = this.loadedRebutticles[i];
+                scrollView.appendChild(createCard(data.bias, data.opinion, data.indep, data.url, i, data.title));
+            }
+
+            console.log("All done")
+        });
+
+
     }
 };
 
@@ -39,7 +50,7 @@ function createCard(bias, opinion, indep, url, index, title) {
     return rebutticleCard;
 };
 
-function updateHeaderScoreDiv(bias,opinion,indep) {
+function updateHeaderScoreDiv(bias, opinion, indep) {
     let myDiv = document.getElementById("header_score_div");
     let children = $(myDiv).children();
     politicalContainer = children[0].getElementsByClassName("analyticBox")[0];
@@ -128,8 +139,8 @@ function createDismissButton() {
         let parent = btn.target.parentNode;
         let index = parent.getAttribute('id');
         parent.parentElement.removeChild(parent);
-        rebutticles.splice(index,1); //TODO
-        console.log(rebutticles);
+        loadedRebutticles.splice(index, 1); //TODO
+        console.log(loadedRebutticles);
     };
     return dismissButton;
 };
@@ -145,17 +156,17 @@ function createDialogueElement(title) {
 function renderSignIn() {
     let signInLink = document.getElementsByClassName("signIn")[0];
     if (signedIn) {
-        
+
         signInLink.innerText = "Log out";
         signInLink.href = "#";
-        signedInLink.onclick = function() {
+        signedInLink.onclick = function () {
             signedIn = false;
             renderSignIn();
         };
     } else {
         signInLink.innerText = "Sign in";
         signInLink.href = "signin.html";
-        signInLink.onclick = function() {};
+        signInLink.onclick = function () { };
     }
 
     //else the default is what we want
@@ -168,16 +179,16 @@ function politicalColor(score) {
     if (score <= 5) {
         //red
         //r = 160
-        g = 160 * (score/5);
-        b = 160 * (score/5);
+        g = 160 * (score / 5);
+        b = 160 * (score / 5);
     } else {
         //blue
-        r = 160 * ((10-score)/5);
-        g = 30 + 130 * ((10-score)/5);
+        r = 160 * ((10 - score) / 5);
+        g = 30 + 130 * ((10 - score) / 5);
         //b = 160;
     }
 
-    return "rgb("+r+","+g+","+b+")";
+    return "rgb(" + r + "," + g + "," + b + ")";
 }
 
 function opinionColor(score) {
@@ -186,17 +197,17 @@ function opinionColor(score) {
     b = 200;
     if (score <= 5) {
         //green
-        r = 40 + 160 * (score/5);
+        r = 40 + 160 * (score / 5);
         //g = 200
-        b = 200 * (score/5);
+        b = 200 * (score / 5);
     } else {
         //cyan
-        r = 200 * ((10-score)/5);
+        r = 200 * ((10 - score) / 5);
         //g = 200
-        b = 200 - 10 * ((10-score)/5);
+        b = 200 - 10 * ((10 - score) / 5);
     }
 
-    return "rgb("+r+","+g+","+b+")";
+    return "rgb(" + r + "," + g + "," + b + ")";
 }
 
 function independanceColor(score) {
@@ -205,15 +216,15 @@ function independanceColor(score) {
     b = 120;
     if (score <= 5) {
         //pink
-        r = 190 - 70 * (score/5);
-        g = 120 * (score/5);
-        b = 200 - 80 * (score/5);
+        r = 190 - 70 * (score / 5);
+        g = 120 * (score / 5);
+        b = 200 - 80 * (score / 5);
     } else {
         //purple
-        r = 40 + 80 * ((10-score)/5);
-        g = 120 * ((10-score)/5);
+        r = 40 + 80 * ((10 - score) / 5);
+        g = 120 * ((10 - score) / 5);
         // b = 120
     }
 
-    return "rgb("+r+","+g+","+b+")";
+    return "rgb(" + r + "," + g + "," + b + ")";
 }
