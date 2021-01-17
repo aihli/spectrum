@@ -5,6 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "watson",
+            "type": "python",
+            "request": "launch",
+            "program": "mysite/article/watsonnlp.py"
+        },
+        {
+            "name": "generator",
+            "type": "python",
+            "request": "launch",
+            "program": "mysite/article/generator.py"
+        },
+        {
             "name": "Run Server",
             "type": "python",
             "request": "launch",
