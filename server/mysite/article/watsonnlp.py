@@ -5,7 +5,7 @@ from ibm_watson import NaturalLanguageUnderstandingV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_watson.natural_language_understanding_v1 import Features, CategoriesOptions, ConceptsOptions, EmotionOptions, EntitiesOptions, KeywordsOptions, SentimentOptions, FeaturesResultsMetadata
 
-from generator import GoogleSearch
+from .generator import GoogleSearch
 
 # authenticator = IAMAuthenticator('9Q8EOeltPlk4l2un8nGPEztLGTDHaCIv3O4Cu_LE-bYV')
 # natural_language_understanding = NaturalLanguageUnderstandingV1(
@@ -114,6 +114,7 @@ class WatsonNLP():
         ).get_result()
         print(time.time() - start)
         print(json.dumps(response, indent=2))
+        return response
 
 
 class ArticleProcessor():
@@ -158,10 +159,12 @@ class ArticleProcessor():
                 break
         print("#####################")       
         print(results)
+        sentiment_array = []
         for result in results:
-            self.nlp.compare_sentiment(result[1])
+            sentiment_array.append(self.nlp.compare_sentiment(result[1]))
+        return results, sentiment_array
 
 
 
-processor = ArticleProcessor()
-processor.getArticles('https://www.cbc.ca/news/politics/trudeau-flight-ban-possible-1.5874905')
+# processor = ArticleProcessor()
+# processor.getArticles('https://www.cbc.ca/news/politics/trudeau-flight-ban-possible-1.5874905')
