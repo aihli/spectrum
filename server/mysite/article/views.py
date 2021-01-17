@@ -52,11 +52,11 @@ class UserCreate(View):
             if existing_user:
                 existing_user.set_password(password)
                 existing_user.save()
-                return HttpResponse(status=200)
+                return HttpResponse(status=202)
         except ObjectDoesNotExist:
             user = User.objects.create_user(email, email, password)
             user.save()
-            return HttpResponse(status=200)
+            return HttpResponse(status=201)
 
 # /login
 @method_decorator(csrf_exempt, name='dispatch')
@@ -68,7 +68,7 @@ class UserLogin(View):
         password = request.POST["password"]
         user = authenticate(username=email, password=password)
         if user is not None:
-            return HttpResponse(status=201)
+            return HttpResponse(status=202)
         else:
             return HttpResponse(status=403)
 
@@ -133,3 +133,11 @@ class HistoryView(View):
         username = request.POST["username"]
         user = get_object_or_404(User, email=username)
         history_records = History.objects.all().filter(user=user)
+        responseJSON = {'history': []}
+        for entry in history_records.iterator():
+            print(entry)
+            article_url = entry.record.source.url
+            rebuttal_urls = entry.record.rebuttal
+            item = {'article': article_url, 'rebuttals': rebuttal_urls}
+            responseJSON['history'].append(item)
+        return JsonResponse(responseJSON, safe=False)
