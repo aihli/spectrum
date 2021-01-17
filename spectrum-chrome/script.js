@@ -41,19 +41,47 @@ function createCard(bias, opinion, indep, url, index) {
 function createScoreDiv(bias, opinion, indep) {
     let scoreDiv = document.createElement("div");
     scoreDiv.classList.add("flex-container", "score-container-small");
-    let leftDiv = createAnalyticField(bias.toFixed(1), "Pol. Bias");
-    let middleDiv = createAnalyticField(opinion.toFixed(1), "Opinion");
-    let rightDiv = createAnalyticField(indep.toFixed(1), "Indep. Sc.");
+    let leftDiv = createAnalyticFieldPolitical(bias.toFixed(1), "Pol. Bias");
+    let middleDiv = createAnalyticFieldOpinion(opinion.toFixed(1), "Opinion");
+    let rightDiv = createAnalyticFieldIndependance(indep.toFixed(1), "Independent");
     scoreDiv.append(leftDiv, middleDiv, rightDiv);
     return scoreDiv;
 };
 
-function createAnalyticField(score, text) {
+function createAnalyticFieldPolitical(score, text) {
     let analyticDiv = document.createElement("div");
     analyticDiv.className = "horizontally-aligned"
     let analyticBox = document.createElement("p");
     analyticBox.className = "analyticBox-small";
-    analyticBox.style = "--color: red"; //should change
+    analyticBox.style = "--color: " + politicalColor(score);
+    analyticBox.innerText = score;
+    let analyticSubtitle = document.createElement("p");
+    analyticSubtitle.className = "analyticSubtitle";
+    analyticSubtitle.innerText = text;
+    analyticDiv.append(analyticBox, analyticSubtitle);
+    return analyticDiv;
+};
+
+function createAnalyticFieldOpinion(score, text) {
+    let analyticDiv = document.createElement("div");
+    analyticDiv.className = "horizontally-aligned"
+    let analyticBox = document.createElement("p");
+    analyticBox.className = "analyticBox-small";
+    analyticBox.style = "--color: " + opinionColor(score);
+    analyticBox.innerText = score;
+    let analyticSubtitle = document.createElement("p");
+    analyticSubtitle.className = "analyticSubtitle";
+    analyticSubtitle.innerText = text;
+    analyticDiv.append(analyticBox, analyticSubtitle);
+    return analyticDiv;
+};
+
+function createAnalyticFieldIndependance(score, text) {
+    let analyticDiv = document.createElement("div");
+    analyticDiv.className = "horizontally-aligned"
+    let analyticBox = document.createElement("p");
+    analyticBox.className = "analyticBox-small";
+    analyticBox.style = "--color: " + independanceColor(score);
     analyticBox.innerText = score;
     let analyticSubtitle = document.createElement("p");
     analyticSubtitle.className = "analyticSubtitle";
@@ -113,4 +141,61 @@ function renderSignIn() {
     }
 
     //else the default is what we want
+}
+
+function politicalColor(score) {
+    r = 160;
+    g = 160;
+    b = 160;
+    if (score <= 5) {
+        //red
+        //r = 160
+        g = 160 * (score/5);
+        b = 160 * (score/5);
+    } else {
+        //blue
+        r = 160 * ((10-score)/5);
+        g = 30 + 130 * ((10-score)/5);
+        //b = 160;
+    }
+
+    return "rgb("+r+","+g+","+b+")";
+}
+
+function opinionColor(score) {
+    r = 200;
+    g = 200;
+    b = 200;
+    if (score <= 5) {
+        //green
+        r = 40 + 160 * (score/5);
+        //g = 200
+        b = 200 * (score/5);
+    } else {
+        //cyan
+        r = 200 * ((10-score)/5);
+        //g = 200
+        b = 200 - 10 * ((10-score)/5);
+    }
+
+    return "rgb("+r+","+g+","+b+")";
+}
+
+function independanceColor(score) {
+    r = 120;
+    g = 120;
+    b = 120;
+    if (score <= 5) {
+        //pink
+        r = 190 - 70 * (score/5);
+        g = 120 * (score/5);
+        b = 200 - 80 * (score/5);
+    } else {
+        //purple
+        r = 40 + 80 * ((10-score)/5);
+        g = 120 * ((10-score)/5);
+        // b = 120
+    }
+
+    return "rgb("+r+","+g+","+b+")";
 }
