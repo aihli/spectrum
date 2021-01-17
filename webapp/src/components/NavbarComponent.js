@@ -1,22 +1,21 @@
 import React, { useContext } from "react";
 import { Link } from "@reach/router";
 import SessionContext from "../session";
+import logo from "../logo.png";
 
 const NavbarComponent = () => {
   const session = useContext(SessionContext);
 
   return (
-    <nav className="navbar is-primary" role="navigation">
-      <div className="navbar-brand ml-2">
-        <Link className="navbar-item" to="/search">
-          s
-        </Link>
+    <nav className="navbar is-primary navbar-container" role="navigation">
+      <div className="navbar-brand ml-2 image is-64x64">
+          <img src={logo}/>
       </div>
 
       {session && session.email !== "" && (
         <div className="navbar-end mr-2">
           <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link">Mm</a>
+            <a className="navbar-link">{session.email}</a>
             <div className="navbar-dropdown">
               <Link to="/search" className="navbar-item">
                 Search

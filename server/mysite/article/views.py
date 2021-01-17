@@ -104,7 +104,7 @@ class Article(View):
         rebuttal_record.date = datetime.date.today()
         rebuttal_record.save()
         # Add this to history
-        history_record = History.objects.create(
+        history_record, created = History.objects.get_or_create(
             user=user,
             record=rebuttal_record
         )

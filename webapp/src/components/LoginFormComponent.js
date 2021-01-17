@@ -61,7 +61,7 @@ const LoginFormComponent = ({ setEmail }) => {
             <i className="fas fa-key"></i>
           </span>
         </div>
-        <button className="button is-primary mt-6" onClick={login}>
+        <button className="button is-primary mt-6 has-text-white" onClick={login}>
           Login
         </button>
       </form>

@@ -100,7 +100,7 @@ DATABASES = {
         'ENGINE' : 'django_cockroachdb',
         'NAME' : 'defaultdb',
         'USER' : 'edward',
-        'PASSWORD': 'hankthenorth2020',
+        'PASSWORD': '',
         'HOST' : 'pushy-shark-8cb.gcp-northamerica-northeast1.cockroachlabs.cloud',
         'PORT' : 26257,
     }
