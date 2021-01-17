@@ -1,7 +1,7 @@
 import tldextract
 from googleapiclient.discovery import build
 
-google_api_key = "AIzaSyB96bmjyoPDa-xx3uK6N30kk8vJbtva6FA"
+google_api_key = ""
 
 class GoogleSearch:
     source_url = ""
