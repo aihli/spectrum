@@ -125,10 +125,9 @@ class ArticleProcessor():
     def get_leaning(self, source):
         domain = self.g.get_source_domain(source)
         for name, urls in all_url_dict.items():
-            print(urls)
-            print(name)
             if any(domain in url for url in urls):
                 return name
+        print("None detected")
         return None
 
     def get_search_urls(self, source):
