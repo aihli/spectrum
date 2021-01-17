@@ -1,6 +1,6 @@
 import json, time
 from  __builtin__ import any as b_any
-
+import random
 
 from ibm_watson import NaturalLanguageUnderstandingV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
@@ -42,6 +42,7 @@ center_right = ["thehill.com", "rasmussenreports.com", "wsj.com", "christianityt
         "freedomhouse.org", "nypost.com", "montrealgazette.com", "ottawacitizen.com", "ottawasun.com", "vancouversun.com"]
 right = ["nypost.com", "foxnews.com", "washingtontimes.com", "beinglibertarian.com"]
 all_url_sets = [left, center_left, center, center_right, right]
+all_url_dict = {"left": left, "center_left": center_left, "center": center, "center_right": center_right, "right": right}
 
 class WatsonNLP():
     authenticator = IAMAuthenticator('9Q8EOeltPlk4l2un8nGPEztLGTDHaCIv3O4Cu_LE-bYV')
@@ -120,12 +121,25 @@ class ArticleProcessor():
     g = GoogleSearch()
     google_results = []
 
-    def leaning(self, source):
+    def get_leaning(self, source):
         domain = g.get_source_domain(source)
-        for url_set in [left, center_left, center, center_right, right]:
-            if b_any(domain in x for x in url_set):
-                return url_set
+        for name, urls in all_url_dict.items():
+            if b_any(domain in x for x in urls):
+                return name
+        return None
 
+    def get_search_urls(self, source):
+        leaning = self.get_leaning(source)
+        r_list = []
+        if leaning is None:
+            r_list = center_right + right + center_left + left + center
+        if leaning == "left" or leaning == "center_left":
+            r_list = center_right + right
+        if leaning == "right" or leaning == "center_right":
+            r_list = center_left + left
+        if leaning == "center":
+            r_list = center_right + right + center_left + left
+        return random.shuffle(r_list)
 
 
     def getArticles(self, source):
