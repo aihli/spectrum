@@ -16,3 +16,42 @@
 .cards {
   width: 60%;
 }
+
+div[class$="-box"] {
+  height: 20px;
+  width: 10%;
+}
+
+.dark-blue-box {
+  background-color: #0015bc;
+}
+
+.blue-box {
+  background-color: rgba(#0015bc, 0.6);
+}
+
+.light-blue-box {
+  background-color: rgba(#0015bc, 0.3);
+}
+
+.dark-red-box {
+  background-color: #de0100;
+}
+
+.red-box {
+  background-color: rgba(#de0100, 0.6);
+}
+
+.light-red-box {
+  background-color: rgba(#de0100, 0.3);
+}
+
+.neutral-box {
+  background-color: #f8f8ff;
+}
+
+@for $i from 0 to 6 {
+  .mv-arrow-#{$i} {
+    margin-left: (18.5 + $i * 10) * 1%;
+  }
+}
