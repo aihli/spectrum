@@ -82,12 +82,20 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': '',
+    #     'USER': '',
+    #     'PASSWORD': '',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432',
+    # }
     'default': {
         'ENGINE' : 'django_cockroachdb',
-        'NAME' : 'clumsy-rat-221.defaultdb',
-        'USER' : 'bilal',
-        'PASSWORD': 'BrittanyLame123',
-        'HOST' : 'free-tier.gcp-us-central1.cockroachlabs.cloud',
+        'NAME' : 'defaultdb',
+        'USER' : 'edward',
+        'PASSWORD': 'hankthenorth2020',
+        'HOST' : 'pushy-shark-8cb.gcp-northamerica-northeast1.cockroachlabs.cloud',
         'PORT' : 26257,
     }
 }
