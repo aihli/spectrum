@@ -1,7 +1,8 @@
 
 document.addEventListener("DOMContentLoaded", function () {
-    app.init();
-    updateHeaderScoreDiv(10, 10, 10);
+    setTimeout(() => app.init(), 10)
+
+    updateHeaderScoreDiv(10, 10);
 });
 
 document.addEventListener("pageshow", function () {
@@ -12,10 +13,11 @@ var app = {
     loadedRebutticles: [],
 
     init: function () {
-        //load data from background
+        //load data froms background
+        console.log("begin popup init");
         chrome.runtime.sendMessage({ fn: "getRebutticles" }, function (response) {
             this.loadedRebutticles = response;
-             
+
             //continue rest of rendering
             renderSignIn();
 
@@ -23,26 +25,21 @@ var app = {
 
             for (i in loadedRebutticles) {
                 data = this.loadedRebutticles[i];
-                scrollView.appendChild(createCard(data.bias, data.opinion, data.indep, data.url, i, data.title));
+                scrollView.appendChild(createCard(data.bias, data.opinion, data.url, i, data.title));
             }
-
-            console.log("All done")
         });
 
 
     }
 };
 
-
-
-
 //FUNCTION DEFINITIONS
 
-function createCard(bias, opinion, indep, url, index, title) {
+function createCard(bias, opinion, url, index, title) {
     let rebutticleCard = document.createElement("div");
     rebutticleCard.className = "card";
     let dialogueElement = createDialogueElement(title);
-    let scoreDiv = createScoreDiv(bias, opinion, indep);
+    let scoreDiv = createScoreDiv(bias, opinion);
     let viewButton = createViewButton(url);
     let dismissButton = createDismissButton();
     rebutticleCard.append(dialogueElement, scoreDiv, viewButton, dismissButton);
@@ -50,30 +47,25 @@ function createCard(bias, opinion, indep, url, index, title) {
     return rebutticleCard;
 };
 
-function updateHeaderScoreDiv(bias, opinion, indep) {
+function updateHeaderScoreDiv(bias, opinion) {
     let myDiv = document.getElementById("header_score_div");
     let children = $(myDiv).children();
     politicalContainer = children[0].getElementsByClassName("analyticBox")[0];
     opinionContainer = children[1].getElementsByClassName("analyticBox")[0];
-    indepContainer = children[2].getElementsByClassName("analyticBox")[0];
-
-    politicalContainer.style["background-color"] = politicalColor(bias);
+    
+    politicalContainer.classList.add(politicalColor(bias));
     politicalContainer.innerText = bias;
 
-    opinionContainer.style["background-color"] = opinionColor(opinion);
+    opinionContainer.classList.add(opinionColor(opinion));
     opinionContainer.innerText = opinion;
-
-    indepContainer.style["background-color"] = independanceColor(indep);
-    indepContainer.innerText = indep;
 }
 
-function createScoreDiv(bias, opinion, indep) {
+function createScoreDiv(bias, opinion) {
     let scoreDiv = document.createElement("div");
     scoreDiv.classList.add("flex-container", "score-container-small");
     let leftDiv = createAnalyticFieldPolitical(bias.toFixed(1), "Pol. Bias");
-    let middleDiv = createAnalyticFieldOpinion(opinion.toFixed(1), "Opinion");
-    let rightDiv = createAnalyticFieldIndependance(indep.toFixed(1), "Independent");
-    scoreDiv.append(leftDiv, middleDiv, rightDiv);
+    let rightDiv = createAnalyticFieldOpinion(opinion.toFixed(1), "Opinion");
+    scoreDiv.append(leftDiv, rightDiv);
     return scoreDiv;
 };
 
@@ -82,7 +74,7 @@ function createAnalyticFieldPolitical(score, text) {
     analyticDiv.className = "horizontally-aligned"
     let analyticBox = document.createElement("p");
     analyticBox.className = "analyticBox-small";
-    analyticBox.style = "--color: " + politicalColor(score);
+    analyticBox.classList.add(politicalColor(score));
     analyticBox.innerText = score;
     let analyticSubtitle = document.createElement("p");
     analyticSubtitle.className = "analyticSubtitle";
@@ -96,21 +88,7 @@ function createAnalyticFieldOpinion(score, text) {
     analyticDiv.className = "horizontally-aligned"
     let analyticBox = document.createElement("p");
     analyticBox.className = "analyticBox-small";
-    analyticBox.style = "--color: " + opinionColor(score);
-    analyticBox.innerText = score;
-    let analyticSubtitle = document.createElement("p");
-    analyticSubtitle.className = "analyticSubtitle";
-    analyticSubtitle.innerText = text;
-    analyticDiv.append(analyticBox, analyticSubtitle);
-    return analyticDiv;
-};
-
-function createAnalyticFieldIndependance(score, text) {
-    let analyticDiv = document.createElement("div");
-    analyticDiv.className = "horizontally-aligned"
-    let analyticBox = document.createElement("p");
-    analyticBox.className = "analyticBox-small";
-    analyticBox.style = "--color: " + independanceColor(score);
+    analyticBox.classList.add(opinionColor(score));
     analyticBox.innerText = score;
     let analyticSubtitle = document.createElement("p");
     analyticSubtitle.className = "analyticSubtitle";
@@ -140,7 +118,7 @@ function createDismissButton() {
         let index = parent.getAttribute('id');
         parent.parentElement.removeChild(parent);
         loadedRebutticles.splice(index, 1); //TODO
-        console.log(loadedRebutticles);
+        chrome.runtime.sendMessage({ fn: "removeRebutticle", i: index});
     };
     return dismissButton;
 };
@@ -155,76 +133,39 @@ function createDialogueElement(title) {
 
 function renderSignIn() {
     let signInLink = document.getElementsByClassName("signIn")[0];
-    if (signedIn) {
 
-        signInLink.innerText = "Log out";
-        signInLink.href = "#";
-        signedInLink.onclick = function () {
-            signedIn = false;
-            renderSignIn();
-        };
-    } else {
-        signInLink.innerText = "Sign in";
-        signInLink.href = "signin.html";
-        signInLink.onclick = function () { };
-    }
+    chrome.runtime.sendMessage({ fn: "getSignInStatus" }, function (response) {
+        if (response) {
+            signInLink.innerText = "Log out";
+            signInLink.href = "#";
+            signedInLink.onclick = function () {
+                signedIn = false;
+                renderSignIn();
+            };
+        } else {
+            signInLink.innerText = "Sign in";
+            signInLink.href = "signin.html";
+            signInLink.onclick = function () { };
+        }
 
-    //else the default is what we want
+    });
 }
 
 function politicalColor(score) {
-    r = 160;
-    g = 160;
-    b = 160;
-    if (score <= 5) {
-        //red
-        //r = 160
-        g = 160 * (score / 5);
-        b = 160 * (score / 5);
-    } else {
-        //blue
-        r = 160 * ((10 - score) / 5);
-        g = 30 + 130 * ((10 - score) / 5);
-        //b = 160;
+    var result = "";
+    switch (true) {
+        case (score <= (10 / 7)): result = "dark-blue-box"; break;
+        case (score <= (20 / 7)): result = "blue-box"; break;
+        case (score <= (30 / 7)): result = "light-blue-box"; break;
+        case (score <= (40 / 7)): result = "neutral-box"; break;
+        case (score <= (50 / 7)): result = "light-red-box"; break;
+        case (score <= (60 / 7)): result = "red-box"; break;
+        default: result = "dark-red-box"; break;
     }
 
-    return "rgb(" + r + "," + g + "," + b + ")";
+    return result;
 }
 
 function opinionColor(score) {
-    r = 200;
-    g = 200;
-    b = 200;
-    if (score <= 5) {
-        //green
-        r = 40 + 160 * (score / 5);
-        //g = 200
-        b = 200 * (score / 5);
-    } else {
-        //cyan
-        r = 200 * ((10 - score) / 5);
-        //g = 200
-        b = 200 - 10 * ((10 - score) / 5);
-    }
-
-    return "rgb(" + r + "," + g + "," + b + ")";
-}
-
-function independanceColor(score) {
-    r = 120;
-    g = 120;
-    b = 120;
-    if (score <= 5) {
-        //pink
-        r = 190 - 70 * (score / 5);
-        g = 120 * (score / 5);
-        b = 200 - 80 * (score / 5);
-    } else {
-        //purple
-        r = 40 + 80 * ((10 - score) / 5);
-        g = 120 * ((10 - score) / 5);
-        // b = 120
-    }
-
-    return "rgb(" + r + "," + g + "," + b + ")";
+    return "dark-blue-box";
 }
