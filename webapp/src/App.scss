@@ -34,20 +34,20 @@ div[class$="-box"] {
   background-color: rgba(#0015bc, 0.3);
 }
 
-.dark-red-box {
-  background-color: #de0100;
-}
-
-.red-box {
-  background-color: rgba(#de0100, 0.6);
+.neutral-box {
+  background-color: #f8f8ff;
 }
 
 .light-red-box {
   background-color: rgba(#de0100, 0.3);
 }
 
-.neutral-box {
-  background-color: #f8f8ff;
+.red-box {
+  background-color: rgba(#de0100, 0.6);
+}
+
+.dark-red-box {
+  background-color: #de0100;
 }
 
 @for $i from 0 to 6 {

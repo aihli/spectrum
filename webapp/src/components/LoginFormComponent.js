@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { navigate } from "@reach/router";
 import SessionContext from "../session";
+import { url } from "../constants";
 
 const LoginFormComponent = ({ setEmail }) => {
   const session = useContext(SessionContext);
@@ -15,7 +16,22 @@ const LoginFormComponent = ({ setEmail }) => {
     event.preventDefault();
     const email = document.getElementById("email-input").value;
     const password = document.getElementById("password-input").value;
-    setEmail(email);
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("password", password);
+    fetch(`${url}/login/`, {
+      method: "POST",
+      mode: "cors",
+      accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+      body: formData,
+    })
+      .then(() => {
+        setEmail(email);
+      })
+      .catch((event) => {
+        console.log(event);
+      });
   };
 
   return (
