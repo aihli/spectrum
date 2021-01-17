@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => app.init(), 10)
 
-    updateHeaderScoreDiv(10, 10);
+    updateHeaderScoreDiv(4.1, -0.2);
 });
 
 document.addEventListener("pageshow", function () {
@@ -56,7 +56,7 @@ function updateHeaderScoreDiv(bias, opinion) {
     politicalContainer.classList.add(politicalColor(bias));
     politicalContainer.innerText = bias;
 
-    opinionContainer.classList.add(opinionColor(opinion));
+    opinionContainer.style.backgroundColor = getOpinionColor(opinion);
     opinionContainer.innerText = opinion;
 }
 
@@ -88,7 +88,10 @@ function createAnalyticFieldOpinion(score, text) {
     analyticDiv.className = "horizontally-aligned"
     let analyticBox = document.createElement("p");
     analyticBox.className = "analyticBox-small";
-    analyticBox.classList.add(opinionColor(score));
+    analyticBox.style.backgroundColor = getOpinionColor(score);
+    if (score > 6.5) {
+        analyticBox.style.color = "black";
+    }
     analyticBox.innerText = score;
     let analyticSubtitle = document.createElement("p");
     analyticSubtitle.className = "analyticSubtitle";
@@ -166,6 +169,8 @@ function politicalColor(score) {
     return result;
 }
 
-function opinionColor(score) {
-    return "dark-blue-box";
+function getOpinionColor(score) {
+    let value = 255/2 + (5* score) * 255/10;
+    let color = "rgb(" + value + "," + value + "," + value + ")";
+    return color;
 }

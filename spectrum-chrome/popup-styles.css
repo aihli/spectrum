@@ -9,7 +9,7 @@ body {
 }
 
 p {
-    line-height: 70%;
+    line-height: 85%;
 }
 
 .dialogue {
@@ -17,6 +17,9 @@ p {
     top: -8px;
     color: #416ca4;
     font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden; 
+    text-overflow: ellipsis;
 }
 
 .dialogueLarge {
@@ -96,7 +99,6 @@ img.logo {
 
 .analyticBox {
     color: white;
-    background-color: var(--color);
     border-radius: 4px;
     height: 16px;
     margin: 4px;
@@ -105,10 +107,9 @@ img.logo {
 
 .analyticBox-small {
     color: white;
-    background-color: var(--color);
     border-radius: 2px;
     height: 12px;
-    margin: 2px;
+    margin: 4px;
     font-size: 12px;
 }
 
@@ -122,6 +123,7 @@ img.logo {
     padding-top: 10px;
     background-color: #edf2f8;
     border-radius : 6px;
+    margin: -2px;
 }
 
 .score-container-small {
@@ -136,6 +138,14 @@ img.logo {
 
 .analyticSubtitle {
 
+}
+
+.analyticSubtitle-large {
+    font-size: 14px;
+    font-weight: 900px;
+    color: #426ca4;
+    opacity: 0.8;
+    margin: 6px;
 }
 
 .dark-blue-box {
