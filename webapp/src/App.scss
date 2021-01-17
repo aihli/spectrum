@@ -4,6 +4,15 @@
   box-sizing: border-box;
 }
 
-.form {
+.main {
+  height: 100%;
+}
+
+.form-container {
+  height: 80%;
+}
+
+.form,
+.cards {
   width: 60%;
 }

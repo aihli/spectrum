@@ -5,7 +5,7 @@
 body {
     min-width: var(--width);
     min-height: 560px;
-    background-color: lightgrey;
+    background-color: #d9e3ef;
 }
 
 p {
@@ -15,15 +15,14 @@ p {
 .dialogue {
     position:relative;
     top: -8px;
-    color: darkcyan;
+    color: #416ca4;
     font-size: 16px;
-    translate:
 }
 
 .dialogueLarge {
     position:relative;
     top: -8px;
-    color: darkturquoise;
+    color: #416ca4;
     font-size: 24px;
 }
 
@@ -33,20 +32,21 @@ p {
 }
 
 .card {
-    margin-top: 12px;
-    width: 85%;
+    margin: 6px 6px 12px 6px;
     height: 100px;
+    width: 85%;
     padding: 5% 10px 5% 10px;  
     border-radius: 15px;
     background-color: white;
     position: relative;
+    -moz-box-shadow: 0 0 1px 1px #999;
+    -webkit-box-shadow: 0 0 1px 3px #999;
 }
 
 button {
-    border: 1px black solid;
     border-radius: 20px;
    float: right;
-   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
 }
 
 .viewButton {
@@ -61,15 +61,18 @@ button {
 }
 
 div.scroll {
-    margin: 0;
+    margin-top: 10px;
+    margin-left: -8px;
+    margin-right: -8px;
     width: var(--width);
-    height: 420px;
+    height: 400px;
     overflow-x: hidden;
     overflow-y: auto;
-    padding: 0px;
+    padding: 4px;
     position:absolute;
     bottom:0;
     width:100%;
+    background-color: #426ca4;
 }
 
 .flex-container {
@@ -115,7 +118,15 @@ img.logo {
 }
 
 .score-container {
+    padding-bottom: 4px;
+    padding-top: 10px;
+    background-color: #edf2f8;
+    border-radius : 6px;
+}
 
+.score-container-small {
+    border-radius : 4px;
+    text-align: center
 }
 
 .score-container-small {
