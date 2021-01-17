@@ -41,7 +41,7 @@ center_right = ["thehill.com", "rasmussenreports.com", "wsj.com", "christianityt
         "freedomhouse.org", "nypost.com", "montrealgazette.com", "ottawacitizen.com", "ottawasun.com", "vancouversun.com", "nationalpost.com", "torontosun.com", 
         "calgaryherald.com", "theglobeandmail.com"]
 right = ["nypost.com", "foxnews.com", "washingtontimes.com", "beinglibertarian.com", "calgarysun.com", "rebelnews.com", "telegraph.co.uk"]
-extreme_right = ["naturalnews.com", "infowars.com"]
+extreme_right = ["naturalnews.com", "infowars.com", "newsmax.com"]
 all_url_dict = {"extreme_left": extreme_left, "left": left, "center_left": center_left, "center": center, "center_right": center_right, "right": right, "extreme_right": extreme_right}
 
 class WatsonNLP():
@@ -164,4 +164,5 @@ class ArticleProcessor():
 
 
 processor = ArticleProcessor()
-processor.getArticles('https://www.cbc.ca/news/politics/trudeau-flight-ban-possible-1.5874905')
+processor.getArticles('https://www.foxnews.com/media/msnbc-anchor-thanked-biden-adviser-advocacy')
+
