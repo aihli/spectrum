@@ -1,3 +1,5 @@
+const api_url = "https://83c0f418ab15.ngrok.io";
+
 class RebutticleData {
     constructor(bias, opinion, url, title) {
         this.title = title;
@@ -12,17 +14,7 @@ var background = {
     signedIn: false,
 
     init: function () {
-        //temporary local gata
-
-        this.activeRebutticles = [];
-        for (i = 0; i < 0; i++) {
-            data = new RebutticleData(Math.random() * 10, Math.random() * 10, "http://google.com", "Google" + i)
-            this.activeRebutticles.push(data);
-        }
-
-        //end
-
-
+     
         chrome.runtime.onMessage.addListener(function (request, sender, response) {
             if (request.fn in background) {
                 background[request.fn](request, sender, response);
@@ -30,10 +22,60 @@ var background = {
         });
 
         chrome.tabs.onActivated.addListener(tab => {
-            chrome.tabs.get(tab.tabId, tab_info => {
+            chrome.tabs.get(tab.tabId, tab_info => {  //<-- Can we just appreciate that this lines up!!
                 if (isArticleSource(tab_info.url)) {
-                    // generate rebutticle(s)
-                    this.addRebutticle({url: tab_info.url, title:tab_info.title}, null, null);
+                    // generate rebutticle(s) given tab_info.url
+
+                    const formData = new FormData();
+                    formData.append("email", "keyruan1@gmail.com");
+                    formData.append("article", tab_info.url);
+                    fetch(`${api_url}/getRebuttalArticles/`, {
+                        method: "POST",
+                        mode: "cors",
+                        accept: "application/json",
+                        "Access-Control-Allow-Origin": "*",
+                        body: formData,
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            const cardsArray = [];
+                            for (let rebuttal of data.rebuttals) {
+                                
+                                let politicalScore;
+                                switch (rebuttal.leaning) {
+                                    case "extreme_left":
+                                        politicalScore = 0;
+                                        break;
+                                    case "left":
+                                        politicalScore = 10/7 + Math.random();
+                                        break;
+                                    case "center_left":
+                                        politicalScore = 20/7 + Math.random();
+                                        break;
+                                    case "neutral":
+                                        politicalScore = 30/7 + Math.random();
+                                        break;
+                                    case "center_right":
+                                        politicalScore = 40/7 + Math.random();
+                                        break;
+                                    case "right":
+                                        politicalScore = 50/7 + Math.random(); 
+                                        break;
+                                    default:
+                                        politicalScore = 60/7 + Math.random();
+                                }
+
+                                console.log("bias: " + politicalScore);
+
+                                this.addRebutticle({ url: rebuttal.url, title: rebuttal.title, bias: politicalScore, opinion: rebuttal.sentimentScore}, null, null);
+
+                                console.log(rebuttal);
+                            }
+                        });
+
+                    // ====== stub ========
+                    //this.addRebutticle({ url: tab_info.url, title: tab_info.title }, null, null);
+                    // ====================
                 }
             });
         });
@@ -59,10 +101,10 @@ var background = {
     },
 
     addRebutticle: function (request, sender, response) {
-        console.log("Tab successfully added");
-        data = new RebutticleData(Math.random() * 10, Math.random() * 10, request.url, request.title);
+        console.log(this.activeRebutticles);
+        data = new RebutticleData(request.bias, request.opinion, request.url, request.title);
         this.activeRebutticles.push(data);
-        
+
     }
 }
 
@@ -145,7 +187,7 @@ function isArticleSource(source) {
 
     for (index in articleSources) {
         if (source.startsWith("http://www." + articleSources[index])
-        || source.startsWith("https://www." + articleSources[index])) {
+            || source.startsWith("https://www." + articleSources[index])) {
             console.log("Add this one..")
             return true;
         }

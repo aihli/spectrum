@@ -99,7 +99,6 @@ img.logo {
 
 .analyticBox {
     color: white;
-    background-color: var(--color);
     border-radius: 4px;
     height: 16px;
     margin: 4px;
@@ -108,7 +107,6 @@ img.logo {
 
 .analyticBox-small {
     color: white;
-    background-color: var(--color);
     border-radius: 2px;
     height: 12px;
     margin: 4px;
