@@ -17,7 +17,6 @@ p {
     top: -8px;
     color: #416ca4;
     font-size: 16px;
-    translate:
 }
 
 .dialogueLarge {
@@ -40,6 +39,8 @@ p {
     border-radius: 15px;
     background-color: white;
     position: relative;
+    -moz-box-shadow: 0 0 1px 1px #999;
+    -webkit-box-shadow: 0 0 1px 3px #999;
 }
 
 button {

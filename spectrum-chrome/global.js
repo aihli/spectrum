@@ -1,5 +1,6 @@
 class RebutticleData {
-    constructor(bias, opinion, indep, url) {
+    constructor(bias, opinion, indep, url, title) {
+        this.title = title;
         this.bias = bias;
         this.opinion = opinion;
         this.indep = indep;
@@ -10,7 +11,7 @@ class RebutticleData {
 rebutticles = []
 for (i = 0; i < 10; i++) {
     console.log(Math.random()* 10);
-    data = new RebutticleData(Math.random() * 10, Math.random() * 10, Math.random() * 10, "http://google.com")
+    data = new RebutticleData(Math.random() * 10, Math.random() * 10, Math.random() * 10, "http://google.com", "Google" + i)
     rebutticles.push(data);
 }
 

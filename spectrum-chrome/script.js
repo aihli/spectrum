@@ -1,6 +1,7 @@
 
 document.addEventListener("DOMContentLoaded", function () {
     app.init();
+    updateHeaderScoreDiv(10,10,10);
 });
 
 document.addEventListener("pageshow", function() {
@@ -16,7 +17,7 @@ var app = {
 
         for (i in rebutticles) {
             data = rebutticles[i];
-            scrollView.appendChild(createCard(data.bias, data.opinion, data.indep, data.url, i));
+            scrollView.appendChild(createCard(data.bias, data.opinion, data.indep, data.url, i, data.title));
         }
     }
 };
@@ -26,10 +27,10 @@ var app = {
 
 //FUNCTION DEFINITIONS
 
-function createCard(bias, opinion, indep, url, index) {
+function createCard(bias, opinion, indep, url, index, title) {
     let rebutticleCard = document.createElement("div");
     rebutticleCard.className = "card";
-    let dialogueElement = createDialogueElement("Title of rebutticle");
+    let dialogueElement = createDialogueElement(title);
     let scoreDiv = createScoreDiv(bias, opinion, indep);
     let viewButton = createViewButton(url);
     let dismissButton = createDismissButton();
@@ -37,6 +38,23 @@ function createCard(bias, opinion, indep, url, index) {
     rebutticleCard.id = index;
     return rebutticleCard;
 };
+
+function updateHeaderScoreDiv(bias,opinion,indep) {
+    let myDiv = document.getElementById("header_score_div");
+    let children = $(myDiv).children();
+    politicalContainer = children[0].getElementsByClassName("analyticBox")[0];
+    opinionContainer = children[1].getElementsByClassName("analyticBox")[0];
+    indepContainer = children[2].getElementsByClassName("analyticBox")[0];
+
+    politicalContainer.style["background-color"] = politicalColor(bias);
+    politicalContainer.innerText = bias;
+
+    opinionContainer.style["background-color"] = opinionColor(opinion);
+    opinionContainer.innerText = opinion;
+
+    indepContainer.style["background-color"] = independanceColor(indep);
+    indepContainer.innerText = indep;
+}
 
 function createScoreDiv(bias, opinion, indep) {
     let scoreDiv = document.createElement("div");
