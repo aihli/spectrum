@@ -7,5 +7,3 @@ Political campaigns have become increasingly waged on social media sites. The Fa
 More recently, Netflix’s 2020 docudrama *The Social Dilemma* explored how social media is fundamentally designed to nurture addiction to the platform and manipulate politics. It revealed how the algorithms behind our favourite social media networks are designed to nurture addiction and manipulate politics, by feeding users with click-bait-worthy articles, instead of legitimate posts, leading to a furious echo chamber. 
 
 Given the already extremely dichotomized political divide in the United States, we were inspired to build something that would address the echo chamber that social media users are thrust into. An echo chamber refers to when beliefs are reinforced by communication and repetition within a closed system, and insulated from rebuttal. Let’s break out of the echo chamber by educating ourselves across the *spectrum*. 
-
-Check out our Devpost submission here: https://hackthenorth2020.devpost.com/
