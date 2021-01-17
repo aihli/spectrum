@@ -1,7 +1,9 @@
 import json, time
+from  __builtin__ import any as b_any
+
+
 from ibm_watson import NaturalLanguageUnderstandingV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-
 from ibm_watson.natural_language_understanding_v1 import Features, CategoriesOptions, ConceptsOptions, EmotionOptions, EntitiesOptions, KeywordsOptions, SentimentOptions, FeaturesResultsMetadata
 
 from generator import GoogleSearch
@@ -39,6 +41,7 @@ center_right = ["thehill.com", "rasmussenreports.com", "wsj.com", "christianityt
         "atlanticcouncil.org", "chicagotribune.com", "edmontonsun.com", "financialpost.com", "fraserinstitute.org",
         "freedomhouse.org", "nypost.com", "montrealgazette.com", "ottawacitizen.com", "ottawasun.com", "vancouversun.com"]
 right = ["nypost.com", "foxnews.com", "washingtontimes.com", "beinglibertarian.com"]
+all_url_sets = [left, center_left, center, center_right, right]
 
 class WatsonNLP():
     authenticator = IAMAuthenticator('9Q8EOeltPlk4l2un8nGPEztLGTDHaCIv3O4Cu_LE-bYV')
@@ -120,7 +123,10 @@ class ArticleProcessor():
     def leaning(self, source):
         domain = g.get_source_domain(source)
         for url_set in [left, center_left, center, center_right, right]:
-            
+            if b_any(domain in x for x in url_set):
+                return url_set
+
+
 
     def getArticles(self, source):
         nlp.analyze_article(source)
