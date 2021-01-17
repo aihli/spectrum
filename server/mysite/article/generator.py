@@ -26,8 +26,6 @@ class GoogleSearch:
         articles_array = []
         try:
             for item in results['items']:
-                print(item['title'])
-                print(item['link'])
                 articles_array.append([item['title'], item['link']])
         except:
             print("Search returned no articles")

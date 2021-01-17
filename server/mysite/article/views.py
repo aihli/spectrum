@@ -135,7 +135,6 @@ class HistoryView(View):
         history_records = History.objects.all().filter(user=user)
         responseJSON = {'history': []}
         for entry in history_records.iterator():
-            print(entry)
             article_url = entry.record.source.url
             rebuttal_urls = entry.record.rebuttal
             item = {'article': article_url, 'rebuttals': rebuttal_urls}
