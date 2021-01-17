@@ -37,7 +37,7 @@ p {
     width: 85%;
     padding: 5% 10px 5% 10px;  
     border-radius: 15px;
-    background-color: white;
+    background-color: beige;
     position: relative;
     -moz-box-shadow: 0 0 1px 1px #999;
     -webkit-box-shadow: 0 0 1px 3px #999;
@@ -113,7 +113,7 @@ img.logo {
 }
 
 .horizontally-aligned {
-    width: 33%;
+    width: 48%;
     float: left;
 }
 
@@ -137,3 +137,36 @@ img.logo {
 .analyticSubtitle {
 
 }
+
+.dark-blue-box {
+    background-color: #0015bc;
+  }
+  
+  .blue-box {
+    background-color: #0015bc;
+    opacity: 0.6;
+  }
+  
+  .light-blue-box {
+    background-color: #0015bc;
+    opacity: 0.3;
+  }
+  
+  .neutral-box {
+    background-color: #f8f8ff;
+    color: black;
+  }
+  
+  .light-red-box {
+    background-color: #de0100;
+    opacity: 0.3;
+  }
+  
+  .red-box {
+    background-color: #de0100;
+    opacity: 0.6;
+  }
+  
+  .dark-red-box {
+    background-color: #de0100;
+  }
