@@ -5,7 +5,7 @@ from ibm_watson import NaturalLanguageUnderstandingV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_watson.natural_language_understanding_v1 import Features, CategoriesOptions, ConceptsOptions, EmotionOptions, EntitiesOptions, KeywordsOptions, SentimentOptions, FeaturesResultsMetadata
 
-from .generator import GoogleSearch
+from generator import GoogleSearch
 
 # authenticator = IAMAuthenticator('9Q8EOeltPlk4l2un8nGPEztLGTDHaCIv3O4Cu_LE-bYV')
 # natural_language_understanding = NaturalLanguageUnderstandingV1(
@@ -41,7 +41,7 @@ center_right = ["thehill.com", "rasmussenreports.com", "wsj.com", "christianityt
         "freedomhouse.org", "nypost.com", "montrealgazette.com", "ottawacitizen.com", "ottawasun.com", "vancouversun.com", "nationalpost.com", "torontosun.com", 
         "calgaryherald.com", "theglobeandmail.com"]
 right = ["nypost.com", "foxnews.com", "washingtontimes.com", "beinglibertarian.com", "calgarysun.com", "rebelnews.com", "telegraph.co.uk"]
-extreme_right = ["naturalnews.com", "infowars.com"]
+extreme_right = ["naturalnews.com", "infowars.com", "breitbart.com"]
 all_url_dict = {"extreme_left": extreme_left, "left": left, "center_left": center_left, "center": center, "center_right": center_right, "right": right, "extreme_right": extreme_right}
 
 class WatsonNLP():
@@ -114,7 +114,6 @@ class WatsonNLP():
         ).get_result()
         print(time.time() - start)
         print(json.dumps(response, indent=2))
-        return response
 
 
 class ArticleProcessor():
@@ -158,12 +157,13 @@ class ArticleProcessor():
                 break
         print("#####################")       
         print(results)
-        sentiment_array = []
         for result in results:
-            sentiment_array.append(self.nlp.compare_sentiment(result[1]))
-        return results, sentiment_array
+            self.nlp.compare_sentiment(result[1])
 
 
 
-# processor = ArticleProcessor()
-# processor.getArticles('https://www.cbc.ca/news/politics/trudeau-flight-ban-possible-1.5874905')
+processor = ArticleProcessor()
+processor.getArticles('https://www.newsmax.com/michaeldorstewitz/vote-fraud-baseless-merit-scotus/2021/01/02/id/1003982/')
+
+
+
