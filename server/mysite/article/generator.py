@@ -35,7 +35,8 @@ class GoogleSearch:
     def build_request(self, keywords, sites):
         keyword_arg = " OR ".join(map(lambda kw: "allintext:" + kw, keywords))
         sites_arg = " OR ".join(map(lambda site: "site:" + site, sites))
-        return " ".join([keyword_arg, sites_arg, "-filetype:pdf -filetype:ppt -filetype:doc"])
+        search_query = " ".join([keyword_arg, sites_arg])
+        return " -filetype:pdf -filetype:ppt -filetype:doc" + search_query
 
 
 # g = GoogleSearch()
