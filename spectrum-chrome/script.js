@@ -3,12 +3,14 @@ document.addEventListener("DOMContentLoaded", function () {
     app.init();
 });
 
+document.addEventListener("pageshow", function() {
+    app.init();
+})
+
 var app = {
     init: function () {
-        //============== temporary local data ====================
-        
-
-        //============== end of local data =======================
+        console.log("I'm logged in:" + signedIn);
+        renderSignIn();
 
         let scrollView = document.getElementsByClassName("scroll")[0];
 
@@ -93,3 +95,22 @@ function createDialogueElement(title) {
 
     return dialogueElement;
 };
+
+function renderSignIn() {
+    let signInLink = document.getElementsByClassName("signIn")[0];
+    if (signedIn) {
+        
+        signInLink.innerText = "Log out";
+        signInLink.href = "#";
+        signedInLink.onclick = function() {
+            signedIn = false;
+            renderSignIn();
+        };
+    } else {
+        signInLink.innerText = "Sign in";
+        signInLink.href = "signin.html";
+        signInLink.onclick = function() {};
+    }
+
+    //else the default is what we want
+}
