@@ -1,7 +1,7 @@
 import tldextract
 from googleapiclient.discovery import build
 
-google_api_key = "AIzaSyB96bmjyoPDa-xx3uK6N30kk8vJbtva6FA"
+google_api_key = ""
 
 class GoogleSearch:
     source_url = ""
@@ -26,8 +26,6 @@ class GoogleSearch:
         articles_array = []
         try:
             for item in results['items']:
-                print(item['title'])
-                print(item['link'])
                 articles_array.append([item['title'], item['link']])
         except:
             print("Search returned no articles")

@@ -41,7 +41,7 @@ center_right = ["thehill.com", "rasmussenreports.com", "wsj.com", "christianityt
         "freedomhouse.org", "nypost.com", "montrealgazette.com", "ottawacitizen.com", "ottawasun.com", "vancouversun.com", "nationalpost.com", "torontosun.com", 
         "calgaryherald.com", "theglobeandmail.com"]
 right = ["nypost.com", "foxnews.com", "washingtontimes.com", "beinglibertarian.com", "calgarysun.com", "rebelnews.com", "telegraph.co.uk"]
-extreme_right = ["naturalnews.com", "infowars.com", "breitbart.com"]
+extreme_right = ["naturalnews.com", "infowars.com", "breitbart.com", "newsmax.com"]
 all_url_dict = {"extreme_left": extreme_left, "left": left, "center_left": center_left, "center": center, "center_right": center_right, "right": right, "extreme_right": extreme_right}
 
 class WatsonNLP():
@@ -113,7 +113,7 @@ class WatsonNLP():
             features=features
         ).get_result()
         print(time.time() - start)
-        print(json.dumps(response, indent=2))
+        # print(json.dumps(response, indent=2))
         return response
 
 
@@ -149,14 +149,14 @@ class ArticleProcessor():
         going = True
         while going:
             query = self.g.build_request(keywords=self.nlp.extract_keywords(), sites=self.get_search_urls(source))
-            print("#####################")       
+            print("#####################")
             print(query)
             results = self.g.search(query=query, count=5)
             if len(results) == 0:
                 going = self.nlp.reduce_keywords()
             else:
                 break
-        print("#####################")       
+        print("#####################")
         print(results)
         sentiments = []
         for result in results:
