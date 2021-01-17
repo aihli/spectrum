@@ -12,8 +12,8 @@ const SearchScreen = () => {
       <div className="is-flex is-justify-content-center is-align-items-center form-container">
         <div className="form is-flex is-flex-direction-column is-align-items-center">
           <SearchBarComponent setSearch={setSearch} />
-          <button className="button is-primary mt-3 is-rounded">
-            <Link to="/results" state={{ search: search }}>
+          <button className="button is-primary mt-3 is-rounded has-text-white">
+            <Link to="/results" className="has-text-white" state={{ search: search }}>
               Search
             </Link>
           </button>

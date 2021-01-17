@@ -15,7 +15,7 @@ const NavbarComponent = () => {
       {session && session.email !== "" && (
         <div className="navbar-end mr-2">
           <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link">Mm</a>
+            <a className="navbar-link">{session.email}</a>
             <div className="navbar-dropdown">
               <Link to="/search" className="navbar-item">
                 Search
