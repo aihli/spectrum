@@ -9,7 +9,7 @@ body {
 }
 
 p {
-    line-height: 70%;
+    line-height: 85%;
 }
 
 .dialogue {
@@ -108,7 +108,7 @@ img.logo {
     background-color: var(--color);
     border-radius: 2px;
     height: 12px;
-    margin: 2px;
+    margin: 4px;
     font-size: 12px;
 }
 
@@ -122,6 +122,7 @@ img.logo {
     padding-top: 10px;
     background-color: #edf2f8;
     border-radius : 6px;
+    margin: -2px;
 }
 
 .score-container-small {
@@ -136,6 +137,14 @@ img.logo {
 
 .analyticSubtitle {
 
+}
+
+.analyticSubtitle-large {
+    font-size: 14px;
+    font-weight: 900px;
+    color: #426ca4;
+    opacity: 0.8;
+    margin: 6px;
 }
 
 .dark-blue-box {

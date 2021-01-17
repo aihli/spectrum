@@ -15,7 +15,7 @@ var background = {
         //temporary local gata
 
         this.activeRebutticles = [];
-        for (i = 0; i < 10; i++) {
+        for (i = 0; i < 3; i++) {
             data = new RebutticleData(Math.random() * 10, Math.random() * 10, "http://google.com", "Google" + i)
             this.activeRebutticles.push(data);
         }
