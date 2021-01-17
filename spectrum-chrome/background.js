@@ -15,7 +15,7 @@ var background = {
         //temporary local gata
 
         this.activeRebutticles = [];
-        for (i = 0; i < 3; i++) {
+        for (i = 0; i < 0; i++) {
             data = new RebutticleData(Math.random() * 10, Math.random() * 10, "http://google.com", "Google" + i)
             this.activeRebutticles.push(data);
         }
@@ -31,7 +31,7 @@ var background = {
 
         chrome.tabs.onActivated.addListener(tab => {
             chrome.tabs.get(tab.tabId, tab_info => {
-                if (true) {
+                if (isArticleSource(tab_info.url)) {
                     // generate rebutticle(s)
                     this.addRebutticle({url: tab_info.url, title:tab_info.title}, null, null);
                 }
@@ -67,3 +67,88 @@ var background = {
 }
 
 background.init();
+
+
+
+function isArticleSource(source) {
+    console.log(source);
+    articleSources = [
+        "palmerreport.com",
+        "politifact.com",
+        "jacobinmag.com",
+        "jezebel.com",
+        "cbsnews.com",
+        "abcnews.go.com",
+        "npr.org",
+        "nbcnews.com",
+        "nytimes.com",
+        "stltoday.com",
+        "theguardian.com",
+        "washingtonpost.com",
+        "cnn.com",
+        "msnbc.com",
+        "vox.com",
+        "nbcnews.com",
+        "huffpost.com",
+        "scmp.com",
+        "forbes.com",
+        "theskimm.com",
+        "cbc.ca",
+        "dailyhive.com",
+        "thestar.com",
+        "theprovince.com",
+        "bbc.com",
+        "time.com",
+        "vox.com",
+        "theguardian.com",
+        "reuters.com",
+        "apnews.com",
+        "upi.com",
+        "voanews.com",
+        "tennessean.com",
+        "syracuse.com",
+        "economist.com",
+        "reviewjournal.com",
+        "Forbes.com",
+        "ft.com",
+        "startribune.com",
+        "thehill.com",
+        "rasmussenreports.com",
+        "wsj.com",
+        "christianitytoday.com",
+        "atlanticcouncil.org",
+        "chicagotribune.com",
+        "edmontonsun.com",
+        "financialpost.com",
+        "fraserinstitute.org",
+        "freedomhouse.org",
+        "nypost.com",
+        "montrealgazette.com",
+        "ottawacitizen.com",
+        "ottawasun.com",
+        "vancouversun.com",
+        "nationalpost.com",
+        "torontosun.com",
+        "calgaryherald.com",
+        "theglobeandmail.com",
+        "nypost.com",
+        "foxnews.com",
+        "washingtontimes.com",
+        "Beinglibertarian.com",
+        "Calgarysun.com",
+        "Rebelnews.com",
+        "telegraph.co.uk",
+        "naturalnews.com",
+        "infowars.com",
+        "americanthinker.com"
+    ];
+
+    for (index in articleSources) {
+        if (source.startsWith("http://www." + articleSources[index])
+        || source.startsWith("https://www." + articleSources[index])) {
+            console.log("Add this one..")
+            return true;
+        }
+    }
+    return false;
+}
