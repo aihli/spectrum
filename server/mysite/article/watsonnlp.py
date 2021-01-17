@@ -7,7 +7,7 @@ from ibm_watson.natural_language_understanding_v1 import Features, CategoriesOpt
 
 from .generator import GoogleSearch
 
-# authenticator = IAMAuthenticator('9Q8EOeltPlk4l2un8nGPEztLGTDHaCIv3O4Cu_LE-bYV')
+# authenticator = IAMAuthenticator()
 # natural_language_understanding = NaturalLanguageUnderstandingV1(
 #     version='2020-08-01',
 #     authenticator=authenticator
@@ -45,7 +45,7 @@ extreme_right = ["naturalnews.com", "infowars.com", "breitbart.com", "newsmax.co
 all_url_dict = {"extreme_left": extreme_left, "left": left, "center_left": center_left, "center": center, "center_right": center_right, "right": right, "extreme_right": extreme_right}
 
 class WatsonNLP():
-    authenticator = IAMAuthenticator('9Q8EOeltPlk4l2un8nGPEztLGTDHaCIv3O4Cu_LE-bYV')
+    authenticator = IAMAuthenticator('')
     natural_language_understanding = NaturalLanguageUnderstandingV1(
         version='2020-08-01',
         authenticator=authenticator
