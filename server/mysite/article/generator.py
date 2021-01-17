@@ -13,7 +13,7 @@ class GoogleSearch:
     def get_source_domain(self, source):
         ext = tldextract.extract(source)
         self.source_domain = '.'.join([ext.domain, ext.suffix])
-
+        return self.source_domain
     
     def search(self, query, count=10):
         request = self.cse_resource.list(

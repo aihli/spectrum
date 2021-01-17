@@ -1,5 +1,4 @@
 import json, time
-from  __builtin__ import any as b_any
 import random
 
 from ibm_watson import NaturalLanguageUnderstandingV1
@@ -43,8 +42,7 @@ center_right = ["thehill.com", "rasmussenreports.com", "wsj.com", "christianityt
         "calgaryherald.com", "theglobeandmail.com"]
 right = ["nypost.com", "foxnews.com", "washingtontimes.com", "beinglibertarian.com", "calgarysun.com", "rebelnews.com", "telegraph.co.uk"]
 extreme_right = ["naturalnews.com", "infowars.com"]
-all_url_sets = [extreme_left, left, center_left, center, center_right, right, extreme_right]
-all_url_dict = {"left": left, "center_left": center_left, "center": center, "center_right": center_right, "right": right}
+all_url_dict = {"extreme_left": extreme_left, "left": left, "center_left": center_left, "center": center, "center_right": center_right, "right": right, "extreme_right": extreme_right}
 
 class WatsonNLP():
     authenticator = IAMAuthenticator('9Q8EOeltPlk4l2un8nGPEztLGTDHaCIv3O4Cu_LE-bYV')
@@ -62,6 +60,7 @@ class WatsonNLP():
         features = Features(
             entities=EntitiesOptions(sentiment=True, emotion=True, limit=20),
             keywords=KeywordsOptions(sentiment=True, emotion=True, limit=20),
+            sentiment=SentimentOptions(),
             metadata={}
         )
         start = time.time()
@@ -106,8 +105,7 @@ class WatsonNLP():
     def compare_sentiment(self, newArticle):
         keywords = self.extract_keywords()
         features = Features(
-            sentiment=SentimentOptions(targets=keywords),
-            emotion=EmotionOptions(targets=keywords)
+            sentiment=SentimentOptions()
         )
         start = time.time()
         response = self.natural_language_understanding.analyze(
@@ -124,9 +122,11 @@ class ArticleProcessor():
     google_results = []
 
     def get_leaning(self, source):
-        domain = g.get_source_domain(source)
+        domain = self.g.get_source_domain(source)
         for name, urls in all_url_dict.items():
-            if b_any(domain in x for x in urls):
+            print(urls)
+            print(name)
+            if any(domain in url for url in urls):
                 return name
         return None
 
@@ -135,41 +135,33 @@ class ArticleProcessor():
         r_list = []
         if leaning is None:
             r_list = center_right + right + center_left + left + center
-        if leaning == "left" or leaning == "center_left":
+        if leaning == "left" or leaning == "center_left" or leaning == "extreme_left":
             r_list = center_right + right
-        if leaning == "right" or leaning == "center_right":
+        if leaning == "right" or leaning == "center_right" or leaning == "extreme_right":
             r_list = center_left + left
         if leaning == "center":
             r_list = center_right + right + center_left + left
-        return random.shuffle(r_list)
+        random.shuffle(r_list)
+        return r_list
 
     def getArticles(self, source):
-        nlp.analyze_article(source)
+        self.nlp.analyze_article(source)
         going = True
         while going:
-            query = g.build_request()
+            query = self.g.build_request(keywords=self.nlp.extract_keywords(), sites=self.get_search_urls(source))
+            print("#####################")       
+            print(query)
+            results = self.g.search(query=query, count=5)
+            if len(results) == 0:
+                going = self.nlp.reduce_keywords()
+            else:
+                break
+        print("#####################")       
+        print(results)
+        for result in results:
+            self.nlp.compare_sentiment(result[1])
 
 
 
-nlp = WatsonNLP()
-nlp.analyze_article('https://www.cbc.ca/news/politics/trudeau-flight-ban-possible-1.5874905')
-
-g = GoogleSearch()
-going = True
-results = []
-while going:
-    q = g.build_request(keywords=nlp.extract_keywords(), sites=['reuters.com', 'forbes.com'])
-    results = g.search(query=q, count=3)
-    if len(results) == 0:
-        going = nlp.reduce_keywords()
-    else:
-        break
-print("#####################")       
-print(results)
-
-for result in results:
-    link = result[1]
-    print("#####################")  
-    print(link)
-    nlp.compare_sentiment(link)
-print("blah")
+processor = ArticleProcessor()
+processor.getArticles('https://www.cbc.ca/news/politics/trudeau-flight-ban-possible-1.5874905')
